@@ -2,6 +2,7 @@ package com.yuhao.yuhaoai.demo;
 
 
 import jakarta.annotation.Resource;
+import org.springframework.ai.chat.client.advisor.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.messages.AssistantMessage;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.prompt.Prompt;
