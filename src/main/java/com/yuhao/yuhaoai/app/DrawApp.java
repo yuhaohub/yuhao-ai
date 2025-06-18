@@ -1,7 +1,8 @@
 package com.yuhao.yuhaoai.app;
 
 
-import dev.langchain4j.memory.ChatMemory;
+import com.yuhao.yuhaoai.advisor.LoggerAdvisor;
+import com.yuhao.yuhaoai.chatmemory.BasedFilePersistentChatMemory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
@@ -19,13 +20,16 @@ public class DrawApp {
     private  final ChatClient chatClient;
 
     public DrawApp(ChatModel dashscopeChatModel) {
+        String fileDir = System.getProperty("user.dir") + "/chat-memory";
         //对话记忆
-        InMemoryChatMemory chatMemory = new InMemoryChatMemory();
-
+        //InMemoryChatMemory chatMemory = new InMemoryChatMemory();
+        BasedFilePersistentChatMemory chatMemory = new BasedFilePersistentChatMemory(fileDir);
         chatClient = ChatClient.builder(dashscopeChatModel)
                 .defaultSystem("你是一名绘画家")
                 .defaultAdvisors(
-                        new MessageChatMemoryAdvisor(chatMemory)
+                        new MessageChatMemoryAdvisor(chatMemory),
+                        //自定义Advisor
+                        new LoggerAdvisor()
                 )
                 .build();
     }
